@@ -56,18 +56,19 @@ class ComonTextfieldWidgets extends StatelessWidget {
   final String? Function(String?)? validator;
   final void Function(String)? onChanged;
   final bool? obscureText;
+  final void Function()? onTap;
 
-  const ComonTextfieldWidgets({
-    super.key,
-    this.controller,
-    this.hintText,
-    this.prefixIcon,
-    this.suffixIcon,
-    this.keyboardType,
-    this.validator,
-    this.onChanged,
-    this.obscureText,
-  });
+  const ComonTextfieldWidgets(
+      {super.key,
+      this.controller,
+      this.hintText,
+      this.prefixIcon,
+      this.suffixIcon,
+      this.keyboardType,
+      this.validator,
+      this.onChanged,
+      this.obscureText,
+      this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -94,6 +95,7 @@ class ComonTextfieldWidgets extends StatelessWidget {
       child: TextFormField(
         controller: controller,
         onTapOutside: (event) => FocusScope.of(context).unfocus(),
+        onTap: onTap,
         keyboardType: keyboardType,
         validator: validator,
         onChanged: onChanged,

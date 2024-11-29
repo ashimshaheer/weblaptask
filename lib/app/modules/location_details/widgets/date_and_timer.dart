@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import 'package:weblabstask/app/modules/location_details/view_model/datails_provider.dart';
+
+import '../../../utils/common_widgets.dart';
 
 class DateAndTimer extends StatefulWidget {
   const DateAndTimer({super.key});
@@ -9,9 +12,6 @@ class DateAndTimer extends StatefulWidget {
 }
 
 class _DateAndTimerState extends State<DateAndTimer> {
-  DateTime _selectedDate = DateTime.now();
-  TimeOfDay _selectedTime = TimeOfDay.now();
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -19,59 +19,79 @@ class _DateAndTimerState extends State<DateAndTimer> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('Select Booking Date'),
-          const SizedBox(height: 8.0),
-          GestureDetector(
-            onTap: () => _selectDate(context),
-            child: Row(
-              children: [
-                const Icon(Icons.calendar_today),
-                const SizedBox(width: 8.0),
-                Text(DateFormat('yyyy-MM-dd').format(_selectedDate)),
-              ],
-            ),
+          const CommonTextWidget(
+            text: "Select Booking Date",
+            color: Color(0xff666666),
+            fontSize: 16,
+            align: TextAlign.left,
+            fontWeight: FontWeight.w500,
           ),
+          const SizedBox(height: 8.0),
+          Consumer<DetailsProvider>(builder: (context, obj, _) {
+            return ComonTextfieldWidgets(
+              onTap: () async => await obj.selectDate(context),
+              controller: obj.dateController,
+              suffixIcon: ShaderMask(
+                shaderCallback: (bounds) => const LinearGradient(
+                  colors: [
+                    Color(0xFF0891B2), // #0891B2
+                    Color(0xFF18C8F2), // #18C8F2
+                    Color(0xFF97EBFF), // #97EBFF
+                  ],
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                ).createShader(bounds),
+                child: const Icon(
+                  Icons.calendar_today,
+                  color: Colors.white, // This color won't be used, since ShaderMask will apply the gradient
+                ),
+              ),
+            );
+          }),
           const SizedBox(height: 16.0),
-          const Text('Select Booking Time'),
-          const SizedBox(height: 8.0),
-          GestureDetector(
-            onTap: () => _selectTime(context),
-            child: Row(
-              children: [
-                const Icon(Icons.access_time),
-                const SizedBox(width: 8.0),
-                Text(_selectedTime.format(context)),
-              ],
-            ),
+          const CommonTextWidget(
+            text: "Select Booking Time",
+            color: Color(0xff666666),
+            fontSize: 16,
+            align: TextAlign.left,
+            fontWeight: FontWeight.w500,
           ),
+          const SizedBox(height: 8.0),
+          Consumer<DetailsProvider>(builder: (context, obj, _) {
+            return ComonTextfieldWidgets(
+              controller: obj.timeController,
+              suffixIcon: ShaderMask(
+                shaderCallback: (bounds) => const LinearGradient(
+                  colors: [
+                    Color(0xFF0891B2), // #0891B2
+                    Color(0xFF18C8F2), // #18C8F2
+                    Color(0xFF97EBFF), // #97EBFF
+                  ],
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                ).createShader(bounds),
+                child: const Icon(
+                  Icons.access_time,
+                  color: Colors.white, // This color won't be used, since ShaderMask will apply the gradient
+                ),
+              ),
+              onTap: () async => await _selectTime(context),
+            );
+          }),
         ],
       ),
     );
   }
 
-  Future<void> _selectDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: _selectedDate,
-      firstDate: DateTime.now(),
-      lastDate: DateTime(2100),
-    );
-    if (picked != null && picked != _selectedDate) {
-      setState(() {
-        _selectedDate = picked;
-      });
-    }
-  }
-
   Future<void> _selectTime(BuildContext context) async {
+    final timeProvider = context.read<DetailsProvider>();
     final TimeOfDay? picked = await showTimePicker(
       context: context,
-      initialTime: _selectedTime,
+      initialTime: timeProvider.selectedTime,
     );
-    if (picked != null && picked != _selectedTime) {
-      setState(() {
-        _selectedTime = picked;
-      });
+    if (picked != null) {
+      timeProvider.updateSelectedTime(picked);
+      context.read<DetailsProvider>().timeController.text = picked.format(context); // Update the TextField
     }
   }
 }

@@ -120,8 +120,8 @@ class BookingScreen extends StatelessWidget {
             const Row(
               children: [
                 CommonTextWidget(
-                  color: Color(0xff666666),
                   text: 'Write request (Optional)',
+                  color: Color(0xff666666),
                   fontSize: 16,
                   align: TextAlign.left,
                   fontWeight: FontWeight.w500,
@@ -266,10 +266,88 @@ class BookingScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 20),
-
+            Container(
+              decoration:
+                  BoxDecoration(color: const Color.fromRGBO(0, 5, 1, 0.03), borderRadius: BorderRadius.circular(14)),
+              padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 14),
+              child: const Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  CircleAvatar(
+                    radius: 20,
+                    backgroundColor: Color(
+                      0xffEBEBEB,
+                    ),
+                    child: Icon(
+                      Icons.error_outline,
+                      color: Color(0xff666666),
+                    ),
+                  ),
+                  SizeBoxV(10),
+                  Expanded(
+                    child: CommonTextWidget(
+                      color: Color(0xff666666),
+                      text: 'Enjoy service at just ₹100 per minute.',
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      overFlow: TextOverflow.clip,
+                      align: TextAlign.center,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 20),
             // // Send Request Button
             CommonButton(
-              onTap: () {},
+              onTap: () {
+                showDialog(
+                  context: context,
+                  barrierDismissible: false, // Prevent dialog dismissal by tapping outside
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16), // Rounded corners
+                      ),
+                      contentPadding: const EdgeInsets.all(24),
+                      content: Column(
+                        mainAxisSize: MainAxisSize.min, // Shrink to fit content
+                        children: [
+                          // Sad face icon
+                          Image.asset('assets/images/icon-location.png'),
+                          const SizedBox(height: 16), // Space between icon and text
+
+                          // Title text using CommonTextWidget
+                          const CommonTextWidget(
+                            text: "Temporary Unavailability of Wybers",
+                            color: Colors.black,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 0.5,
+                            align: TextAlign.center,
+                          ),
+                          const SizedBox(height: 8), // Space between title and subtitle
+
+                          // Subtitle text using CommonTextWidget
+                          const CommonTextWidget(
+                            text: "No Wybers are currently available. Please check back in a few minutes.",
+                            color: Colors.black54,
+                            fontSize: 14,
+                            letterSpacing: 0.3,
+                            align: TextAlign.center,
+                          ),
+                          const SizedBox(height: 24), // Space before button
+
+                          // Done button
+                          const CommonButton(
+                            text: 'Done',
+                          )
+                        ],
+                      ),
+                    );
+                  },
+                );
+              },
               text: 'Send Request',
             ),
           ],
