@@ -14,72 +14,70 @@ class DateAndTimer extends StatefulWidget {
 class _DateAndTimerState extends State<DateAndTimer> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const CommonTextWidget(
-            text: "Select Booking Date",
-            color: Color(0xff666666),
-            fontSize: 16,
-            align: TextAlign.left,
-            fontWeight: FontWeight.w500,
-          ),
-          const SizedBox(height: 8.0),
-          Consumer<DetailsProvider>(builder: (context, obj, _) {
-            return ComonTextfieldWidgets(
-              onTap: () async => await obj.selectDate(context),
-              controller: obj.dateController,
-              suffixIcon: ShaderMask(
-                shaderCallback: (bounds) => const LinearGradient(
-                  colors: [
-                    Color(0xFF0891B2), // #0891B2
-                    Color(0xFF18C8F2), // #18C8F2
-                    Color(0xFF97EBFF), // #97EBFF
-                  ],
-                  begin: Alignment.centerLeft,
-                  end: Alignment.centerRight,
-                ).createShader(bounds),
-                child: const Icon(
-                  Icons.calendar_today,
-                  color: Colors.white, // This color won't be used, since ShaderMask will apply the gradient
-                ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SizedBox(height: 20),
+        const CommonTextWidget(
+          text: "Select Booking Date",
+          color: Color(0xff666666),
+          fontSize: 16,
+          align: TextAlign.left,
+          fontWeight: FontWeight.w500,
+        ),
+        const SizedBox(height: 8.0),
+        Consumer<DetailsProvider>(builder: (context, obj, _) {
+          return ComonTextfieldWidgets(
+            onTap: () async => await obj.selectDate(context),
+            controller: obj.dateController,
+            suffixIcon: ShaderMask(
+              shaderCallback: (bounds) => const LinearGradient(
+                colors: [
+                  Color(0xFF0891B2), // #0891B2
+                  Color(0xFF18C8F2), // #18C8F2
+                  Color(0xFF97EBFF), // #97EBFF
+                ],
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+              ).createShader(bounds),
+              child: const Icon(
+                Icons.calendar_today,
+                color: Colors.white, // This color won't be used, since ShaderMask will apply the gradient
               ),
-            );
-          }),
-          const SizedBox(height: 16.0),
-          const CommonTextWidget(
-            text: "Select Booking Time",
-            color: Color(0xff666666),
-            fontSize: 16,
-            align: TextAlign.left,
-            fontWeight: FontWeight.w500,
-          ),
-          const SizedBox(height: 8.0),
-          Consumer<DetailsProvider>(builder: (context, obj, _) {
-            return ComonTextfieldWidgets(
-              controller: obj.timeController,
-              suffixIcon: ShaderMask(
-                shaderCallback: (bounds) => const LinearGradient(
-                  colors: [
-                    Color(0xFF0891B2), // #0891B2
-                    Color(0xFF18C8F2), // #18C8F2
-                    Color(0xFF97EBFF), // #97EBFF
-                  ],
-                  begin: Alignment.centerLeft,
-                  end: Alignment.centerRight,
-                ).createShader(bounds),
-                child: const Icon(
-                  Icons.access_time,
-                  color: Colors.white, // This color won't be used, since ShaderMask will apply the gradient
-                ),
+            ),
+          );
+        }),
+        const SizedBox(height: 16.0),
+        const CommonTextWidget(
+          text: "Select Booking Time",
+          color: Color(0xff666666),
+          fontSize: 16,
+          align: TextAlign.left,
+          fontWeight: FontWeight.w500,
+        ),
+        const SizedBox(height: 8.0),
+        Consumer<DetailsProvider>(builder: (context, obj, _) {
+          return ComonTextfieldWidgets(
+            controller: obj.timeController,
+            suffixIcon: ShaderMask(
+              shaderCallback: (bounds) => const LinearGradient(
+                colors: [
+                  Color(0xFF0891B2), // #0891B2
+                  Color(0xFF18C8F2), // #18C8F2
+                  Color(0xFF97EBFF), // #97EBFF
+                ],
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+              ).createShader(bounds),
+              child: const Icon(
+                Icons.access_time,
+                color: Colors.white, // This color won't be used, since ShaderMask will apply the gradient
               ),
-              onTap: () async => await _selectTime(context),
-            );
-          }),
-        ],
-      ),
+            ),
+            onTap: () async => await _selectTime(context),
+          );
+        }),
+      ],
     );
   }
 
